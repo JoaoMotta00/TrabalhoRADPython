@@ -74,6 +74,18 @@ def exibirAluno():
     alunos.execute("SELECT * FROM alunos")
     return alunos.fetchall()
 
+def editarAluno(matricula, nome, endereco, nota1, nota2):
+        try:
+            alunos.execute("""UPDATE alunos 
+                              SET nome = ?, 
+                                  endereco = ?,
+                                  nota1 = ?,
+                                  nota2 = ?
+                              WHERE matricula = ?  """, (nome, endereco, nota1, nota2, matricula))
+            connection.commit()
+        except ValueError:
+                print("Erro: matrícula deve ser um número inteiro.")
+
 
 #####################################################################################################################################
 

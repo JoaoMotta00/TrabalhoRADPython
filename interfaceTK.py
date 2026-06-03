@@ -1,6 +1,7 @@
 import tkinter as tk
+import sqlite3
 from tkinter import messagebox
-from RADcrud import adicionarAluno, exibirAluno, removerAluno
+from RADcrud import adicionarAluno, exibirAluno, removerAluno, editarAluno
 
 def cadastrar():
     try:
@@ -21,6 +22,14 @@ def cadastrar():
             nota1,
             nota2
         )
+
+        campo_matricula.delete(0,tk.END)
+        campo_cpf.delete(0,tk.END)
+        campo_nome.delete(0,tk.END)
+        campo_data.delete(0,tk.END)
+        campo_endereco.delete(0,tk.END)
+        campo_nota1.delete(0,tk.END)
+        campo_nota2.delete(0,tk.END)
 
         messagebox.showinfo("Sistema", "Aluno cadastrado com sucesso!")
 
@@ -54,6 +63,75 @@ def remover():
             "Erro",
             "Digite uma matrícula válida"
         )
+
+def editar():
+    connection = sqlite3.connect("alunos.db") #Cria um arquivo .db para armazenar os dados
+    alunos = connection.cursor()
+
+    matricula = int(campo_matricula.get())
+
+
+    try:
+        alunos.execute("SELECT nome,endereco,nota1,nota2 FROM alunos WHERE matricula = ?", ([matricula]))
+        aluno = alunos.fetchone()
+        connection.commit()
+
+        lista.forget()
+        botao_confirma.pack(pady=5)
+        botao_cancela.pack(pady=5)
+        botao_editar.forget()
+        botao_remover.forget()
+        lista.pack(pady=5)
+
+        campo_nome.delete(0, tk.END)
+        campo_nome.insert(0, aluno[0])
+        
+        campo_endereco.delete(0,tk.END)
+        campo_endereco.insert(0, aluno[1])
+        
+        campo_nota1.delete(0,tk.END)
+        campo_nota1.insert(0, aluno[2])
+
+        campo_nota2.delete(0,tk.END)
+        campo_nota2.insert(0, aluno[3])
+       
+    except IndexError:
+        messagebox.showerror(
+            "Erro",
+            "Digite uma matrícula válida"
+        )
+
+def confirma():
+    editarAluno(campo_matricula.get(),campo_nome.get(),campo_endereco.get(), campo_nota1.get(),campo_nota2.get()), 
+    messagebox.showinfo("Sistema","Aluno editado"),
+
+    lista.forget()
+    botao_editar.pack(pady=5)
+    botao_remover.pack(pady=5)
+    botao_confirma.forget()
+    botao_cancela.forget()
+    lista.pack(pady=5)
+
+    campo_matricula.delete(0, tk.END)
+    campo_nome.delete(0, tk.END)
+    campo_endereco.delete(0,tk.END)
+    campo_nota1.delete(0,tk.END)
+    campo_nota2.delete(0,tk.END)
+
+def cancela():
+
+    lista.forget()
+    botao_editar.pack(pady=5)
+    botao_remover.pack(pady=5)
+    botao_cancela.forget()
+    botao_confirma.forget()
+    lista.pack(pady=5)
+
+    campo_matricula.delete(0, tk.END)
+    campo_nome.delete(0, tk.END)
+    campo_endereco.delete(0,tk.END)
+    campo_nota1.delete(0,tk.END)
+    campo_nota2.delete(0,tk.END)
 
 janela = tk.Tk()
 janela.title("Sistema de cadastro de Alunos")
@@ -148,7 +226,31 @@ botao_exibir = tk.Button(
 
 botao_exibir.pack(pady=5)
 
+botao_editar = tk.Button(
+    janela,
+    text="Editar aluno",
+    bg="pink",
+    fg="black",
+    command=editar
+)
 
+botao_editar.pack(pady=5)
+
+botao_confirma = tk.Button(
+    janela,
+    text="Confirmar edição",
+    bg="Green",
+    fg="black",
+    command=confirma
+)
+
+botao_cancela = tk.Button(
+    janela,
+    text="Cancelar edição",
+    bg="Red",
+    fg="black",
+    command=cancela
+)
 
 botao_remover = tk.Button(
     janela,
@@ -161,7 +263,8 @@ botao_remover = tk.Button(
 botao_remover.pack(pady=5)
 
 
-lista = tk.Listbox(janela, width=80, fg="white", bg="black", font=("Comic Sans MS", 10, "bold"))
+
+lista = tk.Listbox(janela, width=80, height=5, fg="white", bg="black", font=("Comic Sans MS", 10, "bold"))
 lista.pack(pady=5)
 
 
