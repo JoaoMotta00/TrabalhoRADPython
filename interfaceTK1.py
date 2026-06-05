@@ -56,12 +56,19 @@ def exibir():
 
 #Função para remover um aluno, recebendo a matrícula do campo de entrada e chamando a função removerAluno do arquivo RADcrud1.py, além de exibir uma mensagem de sucesso ou erro.
 def remover():
+    connection = sqlite3.connect("alunos.db") #Cria um arquivo .db para armazenar os dados
+    alunos = connection.cursor()
     try:
         matricula = int(campo_matricula.get())
+        alunos.execute("SELECT nome FROM alunos WHERE matricula = ?", ([matricula]))
+        aluno = alunos.fetchone()
+        connection.commit()
+
+        nome = aluno[0]
 
         removerAluno(matricula)
 
-        messagebox.showinfo("Sistema", "Aluno removido com sucesso!")
+        messagebox.showinfo("Sistema", f"O aluno {nome} foi removido com sucesso!")
 
     except ValueError:
         messagebox.showerror(
