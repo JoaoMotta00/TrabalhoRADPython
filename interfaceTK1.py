@@ -14,9 +14,9 @@ def cadastrar():
         nome = campo_nome.get()
         data = campo_data.get()
         endereco = campo_endereco.get()
-        nota1 = int(campo_nota1.get())
-        nota2 = int(campo_nota2.get())
-
+        nota1 = campo_nota1.get()
+        nota2 = campo_nota2.get()
+        
         adicionarAluno(
             matricula,
             cpf,
@@ -152,12 +152,12 @@ janela.config(bg="black")
 
 #Widgets da janela principal, com mensagens de boas-vindas e instruções, campos de entrada para matrícula, cpf, nome, data de nascimento, endereço e notas, botões para cadastrar, exibir, editar e remover alunos, além de uma lista para exibir os alunos cadastrados.
 msg = tk.Label(janela, text="Bem-vindo ao sistema de cadastro de alunos!", padx=0, pady=0,)
-msg.config(font=("Comic Sans MS", 12, "underline",), fg="white", bg="black")
+msg.config(font=("Arial", 12, "underline",), fg="white", bg="black")
 msg.pack()
 
 #Mensagem de instruções para o usuário, explicando como usar o sistema.
 msg2 = tk.Label(janela, text="Para CADASTRAR um aluno, preencha os campos abaixo e clique em 'Cadastrar'.\nPara EXIBIR os alunos cadastrados, clique em 'Exibir alunos'.\nPara REMOVER um aluno, digite a matrícula e clique em 'Remover aluno'.\nPara EDITAR um aluno, digite a matrícula e clique em 'Editar aluno'.", padx=0, pady=0,)
-msg2.config(font=("Comic Sans MS", 8), fg="white", bg="black")
+msg2.config(font=("Arial", 8), fg="white", bg="black")
 msg2.pack()
 
 #Matrícula
@@ -221,7 +221,7 @@ campo_nota2.pack()
 botao_cadastrar = tk.Button(
     janela,
     text="Cadastrar",
-    bg="yellow",
+    bg="lightgreen",
     fg="black",
     command=cadastrar
 )
@@ -232,7 +232,7 @@ botao_cadastrar.pack(pady=5)
 botao_exibir = tk.Button(
     janela,
     text="Exibir alunos",
-    bg="yellow",
+    bg="lightblue",
     fg="black",
     command=exibir
 )
@@ -277,7 +277,7 @@ botao_remover.pack(pady=5)
 
 
 #Lista para exibir os alunos cadastrados, com largura, altura, cor de fundo e fonte personalizada.
-lista = tk.Listbox(janela, width=70, height=20, fg="white", bg="black", font=("Comic Sans MS", 10, "bold"))
+lista = tk.Listbox(janela, width=70, height=20, fg="white", bg="black", font=("Arial", 10, "bold"))
 lista.pack(pady=5)
 
 #Inicia a janela principal do sistema, exibindo a interface gráfica para o usuário interagir com o sistema de cadastro de alunos.

@@ -14,8 +14,8 @@ try:
                                         nome TEXT NOT NULL,
                                         data_nascimento TEXT NOT NULL,
                                         endereco TEXT NOT NULL,
-                                        nota1 INTEGER,
-                                        nota2 INTEGER,
+                                        nota1 INTEGER DEFAULT NULL,
+                                        nota2 INTEGER DEFAULT NULL,
                                         PRIMARY KEY(matricula, cpf))
     """) #PRIMARY KEY: chave primária. Composta por matrícula e cpf nesse caso, garantindo que cada aluno seja único no banco de dados.
     #INTEGER: números inteiros
